@@ -38,6 +38,7 @@ def CreateSnowflakeDBandSchema (
           port="1983"
       )
     sqq = sqConnection.cursor(buffered=True)
+    print("Connected to MySQL")
 
     # <--------------------Command Execution-------------------->
     # Getting table company_dim
@@ -45,22 +46,57 @@ def CreateSnowflakeDBandSchema (
     sqq.execute("SELECT * FROM company_dim LIMIT 1000")
     #output = sqq.fetchall()
     #print(output)
-    with open("out.csv", "w", newline='') as csv_file: 
-            csv_writer = csv.writer(csv_file)
-            csv_writer.writerow([i[0] for i in sqq.description]) # write headers
-            csv_writer.writerows(sqq)
+    #import csv
+    #with open("out.csv", "w", newline='') as csv_file: 
+    #        csv_writer = csv.writer(csv_file)
+    #        csv_writer.writerow([i[0] for i in sqq.description]) # write headers
+    #        csv_writer.writerows(sqq)
 
-    
+    # <--------------------Snowflake connection setup-------------------->
+    import snowflake.connector as sf
+    # Request user password if not provided already
+    if sfPswd == '' :
+      import getpass
+      sfPswd = getpass.getpass('Snowflake Password:')
+    # Test the connection to Snowflake
+    try:
+      sfConnection = sf.connect(
+          user=sfUser,
+          password=sfPswd,
+          account=sfAccount
+      )
+      sfq = sfConnection.cursor()
+      sfq.close()
+      sfConnection.close()
+    except:
+      print('Connection to Snowflake failed. Check credentials')
+    # Open connection to Snowflake
+    sfConnection = sf.connect(
+      user=sfUser,
+      password=sfPswd,
+      account=sfAccount
+    )
+    sfq = sfConnection.cursor()
+    print("Connected to Snowflake")
+
+    # <--------------------Command Execution-------------------->
+    sfq.execute("USE ROLE DEMO_ACCESS")
+    sfq.execute("USE WAREHOUSE COMPUTE_WH")
+    sfq.execute("USE DATABASE DEMO_DB")
+    sfq.execute("USE SCHEMA DEMO_DB.TESTANALYTICS")
+    sfq.execute("CREATE OR REPLACE TABLE abc_table(name varchar(20), age integer)")
 
     print('Steps complete')
     sqq.close()
     sqConnection.close()
+    sfq.close()
+    sfConnection.close()
 
 CreateSnowflakeDBandSchema (
     sfPswd = '',
     sqPswd = '',
-    sfAccount = 'xu42372.ap-south-1.aws',
-    sfUser = 'NEHAMALCOM',
+    sfAccount = 'bqa34388',
+    sfUser = 'USER_1',
     sfDatabase = 'DEMO_DB',
     sfSchema = 'TESTANALYTICS',
     sqUser = 'qm_readonly',
