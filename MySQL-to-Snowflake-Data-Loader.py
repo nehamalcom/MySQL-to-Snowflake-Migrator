@@ -57,7 +57,7 @@ def CreateSnowflakeDBandSchema (
           password=sqPswd,
           host=sqHost
       )
-    sqq = sfConnection.cursor()
+    sqq = sqConnection.cursor()
 
     # <--------------------Command Execution for Loading-------------------->
     import csv
