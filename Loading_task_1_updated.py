@@ -152,7 +152,7 @@ def dataLoadFromMySQLtoSnowflake (
             begin_time = datetime.now()
             table_name=table_name.upper()
             try:
-                write_pandas(sfConnection,df,table_name,database=sfdatabase,schema=sfschema)
+                write_pandas(sfConnection,df,table_name,database=sfDatabase,schema=sfSchema)
             except sf.error as err:
                 print("error in loading data to snowflake")
                 print(err)
