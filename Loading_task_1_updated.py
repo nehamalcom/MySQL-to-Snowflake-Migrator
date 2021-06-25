@@ -131,13 +131,13 @@ def dataLoadFromMySQLtoSnowflake (
         #df = pd.DataFrame(table_rows)
         
         try:
-            #loading data using to_sql method when new table is to created
+            #loading data using to_sql method when new table is to be created
             begin_time = datetime.now()
             df.to_sql(table_name, con=engine, index=False)
             end_time = datetime.now()
             print(f"{table_name} loaded into Snowflake in {end_time-begin_time} using to_sql method")
         except:
-            # loading data into an existing table write_pandas function
+            # loading data into an existing table using write_pandas function
             begin_time = datetime.now()
             table_name=table_name.upper()
             write_pandas(sfConnection,df,table_name,database="DEMO_DB",schema="TESTANALYTICS")
@@ -156,7 +156,7 @@ def dataLoadFromMySQLtoSnowflake (
     
 
 if __name__=="__main__":
-     #function to load dat from MySQL server to Snowflake
+     #function to load data from MySQL server to Snowflake
     dataLoadFromMySQLtoSnowflake (
         sfPswd = 'Dpa@1234',
         sqPswd = 'qmreadonly2020',
