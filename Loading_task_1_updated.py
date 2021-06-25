@@ -81,6 +81,8 @@ def dataLoadFromMySQLtoSnowflake (
     sfUser = 'my_user',
     sfDatabase = 'DEMO_DB',
     sfSchema = 'DEMO_SCHEMA',
+    sfwarehouse='COMPUTE_WH',
+    sfrole = 'DEMO_ACCESS',
     sqUser = 'root',
     sqHost = 'localhost',
     sqPort = '1983'
@@ -112,8 +114,8 @@ def dataLoadFromMySQLtoSnowflake (
         password = sfPswd,
         database = sfDatabase,
         schema = sfSchema,
-        warehouse = 'COMPUTE_WH',
-        role='DEMO_ACCESS',
+        warehouse = sfwarehouse,
+        role=sfrole,
     ))
     engineConnection = engine.connect()
     # Getting data from MySQL and loading into Snowflake
@@ -124,11 +126,19 @@ def dataLoadFromMySQLtoSnowflake (
         table_name = input("Table Name: ")
         if (table_name=='stop'):
             break
-        sqq.execute(f"SELECT * FROM {table_name} LIMIT 1000")
+        try:
+            sqq.execute(f"SELECT * FROM {table_name} LIMIT 1000")
+        except mysql.connector.Error as err:
+            print(f"Error in fetching data from {table_name}")
+            print(err)
+            
         table_rows = sqq.fetchall()
         table_headers = sqq.column_names
+        
+        for i in range(len(table_headers)):
+            table_headers[i]=table_headers[i].upper()
         df = pd.DataFrame(table_rows,columns=table_headers)
-        #df = pd.DataFrame(table_rows)
+        
         
         try:
             #loading data using to_sql method when new table is to be created
@@ -140,7 +150,11 @@ def dataLoadFromMySQLtoSnowflake (
             # loading data into an existing table using write_pandas function
             begin_time = datetime.now()
             table_name=table_name.upper()
-            write_pandas(sfConnection,df,table_name,database="DEMO_DB",schema="TESTANALYTICS")
+            try:
+                write_pandas(sfConnection,df,table_name,database=sfdatabase,schema=sfschema)
+            except snowflake.connector.error as err:
+                print("error in loading data to snowflake")
+                print(err)
             end_time = datetime.now()
             print(f"{table_name} loaded into Snowflake in {end_time-begin_time} using  write_pandas method")
             
@@ -164,6 +178,8 @@ if __name__=="__main__":
         sfUser = 'USER_1',
         sfDatabase = 'DEMO_DB',
         sfSchema = 'TESTANALYTICS',
+        sfwarehouse='COMPUTE_WH',
+        sfrole = 'DEMO_ACCESS',
         sqUser = 'qm_readonly',
         sqHost = 'qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com'
     )
