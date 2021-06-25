@@ -2,6 +2,7 @@
 # For first 1000 companies
 # Load company_dim, security_dim and then clean_financial_fact
 import snowflake.connector as sf
+import mysql.connector as sq
 import getpass
 import pandas as pd
 import json
@@ -17,7 +18,7 @@ def mysqlConnector (
     sqPort
 ):
     # <--------------------MySQL connection setup-------------------->
-    import mysql.connector as sq
+    
     if sqPswd == '' :
       import getpass
       sqPswd = getpass.getpass('MySQL Password:')
@@ -123,11 +124,19 @@ def dataLoadFromMySQLtoSnowflake (
         table_name = input("Table Name: ")
         if (table_name=='stop'):
             break
-        sqq.execute(f"SELECT * FROM {table_name} LIMIT 1000")
+        try:
+            sqq.execute(f"SELECT * FROM {table_name} LIMIT 1000")
+        except sq.Error as err:
+            print(f"Error in fetching data from {table_name}")
+            print(err)
+            
         table_rows = sqq.fetchall()
-        table_headers = sqq.column_names
+        table_headers = list(sqq.column_names)
+        
+        for i in range(len(table_headers)):
+            table_headers[i]=table_headers[i].upper()
         df = pd.DataFrame(table_rows,columns=table_headers)
-        #df = pd.DataFrame(table_rows)
+
         try:
             try:
                 #loading data using to_sql method when new table is to be created
@@ -139,13 +148,15 @@ def dataLoadFromMySQLtoSnowflake (
                 # loading data into an existing table using write_pandas function
                 begin_time = datetime.now()
                 table_name=table_name.upper()
-                write_pandas(sfConnection,df,table_name,database="DEMO_DB",schema="TESTANALYTICS")
+                try:
+                    write_pandas(sfConnection,df,table_name,database=sfDatabase,schema=sfSchema)
+                except sf.Error as err:
+                    print("error in loading data to snowflake")
+                    print(err)
                 end_time = datetime.now()
                 print(f"{table_name} loaded into Snowflake in {end_time-begin_time} using  write_pandas method")
-
         except:
             print("Table cannot be created")
-
     
     engineConnection.close()
     engine.dispose()
@@ -204,4 +215,3 @@ if __name__=="__main__":
         sfSchema = sfSchema,
         sfWarehouse = sfWarehouse
     )
-
