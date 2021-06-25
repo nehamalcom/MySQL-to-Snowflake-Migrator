@@ -2,13 +2,14 @@
     "MYSQL": {
         "USERNAME": "qm_readonly",
         "PASSWORD": "qmreadonly2020",
-        "HOST": "qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.comqmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com"
+        "HOST": "qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com",
         "PORT": "1983",
         "DATABASE": "qm_score_prod"
     },
     "SNOWFLAKE": {
         "USERNAME": "USER_1",
         "PASSWORD": "Dpa@1234",
+        "ACCOUNT": "bqa34388",
         "ROLE": "DEMO_ACCESS",
         "DATABASE": "DEMO_DB",
         "SCHEMA": "TESTANALYTICS",
