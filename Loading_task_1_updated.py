@@ -134,7 +134,7 @@ def dataLoadFromMySQLtoSnowflake (
             print(err)
             
         table_rows = sqq.fetchall()
-        table_headers = sqq.column_names
+        table_headers = list(sqq.column_names)
         
         for i in range(len(table_headers)):
             table_headers[i]=table_headers[i].upper()
@@ -153,7 +153,7 @@ def dataLoadFromMySQLtoSnowflake (
             table_name=table_name.upper()
             try:
                 write_pandas(sfConnection,df,table_name,database=sfDatabase,schema=sfSchema)
-            except sf.error as err:
+            except sf.Error as err:
                 print("error in loading data to snowflake")
                 print(err)
             end_time = datetime.now()
@@ -184,4 +184,3 @@ if __name__=="__main__":
         sqUser = 'qm_readonly',
         sqHost = 'qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com'
     )
-
