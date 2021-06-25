@@ -2,6 +2,7 @@
 # For first 1000 companies
 # Load company_dim, security_dim and then clean_financial_fact
 import snowflake.connector as sf
+import mysql.connector as sq
 import getpass
 import pandas as pd
 from datetime import datetime 
@@ -17,7 +18,7 @@ def mysqlConnector (
     sqPort = '1983'
 ):
     # <--------------------MySQL connection setup-------------------->
-    import mysql.connector as sq
+    
     if sqPswd == '' :
       import getpass
       sqPswd = getpass.getpass('MySQL Password:')
@@ -128,7 +129,7 @@ def dataLoadFromMySQLtoSnowflake (
             break
         try:
             sqq.execute(f"SELECT * FROM {table_name} LIMIT 1000")
-        except mysql.connector.Error as err:
+        except sq.Error as err:
             print(f"Error in fetching data from {table_name}")
             print(err)
             
@@ -152,7 +153,7 @@ def dataLoadFromMySQLtoSnowflake (
             table_name=table_name.upper()
             try:
                 write_pandas(sfConnection,df,table_name,database=sfdatabase,schema=sfschema)
-            except snowflake.connector.error as err:
+            except sf.error as err:
                 print("error in loading data to snowflake")
                 print(err)
             end_time = datetime.now()
