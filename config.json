@@ -14,5 +14,8 @@
         "DATABASE": "DEMO_DB",
         "SCHEMA": "TESTANALYTICS",
         "WAREHOUSE": "COMPUTE_WH"
+    },
+    "QUERY": {
+        "SFQUERIES": "sfqueries.sql"
     }
 }
