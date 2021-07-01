@@ -11,6 +11,7 @@ def configure():
     global sfDatabase
     global sfSchema
     global sfWarehouse
+    global sfQueryFile
     sfUser = data['SNOWFLAKE']['USERNAME']
     sfPswd = data['SNOWFLAKE']['PASSWORD']
     sfAccount = data['SNOWFLAKE']['ACCOUNT']
@@ -44,8 +45,8 @@ if __name__=="__main__":
     for command in sqlCommands:
         try:
             sfq.execute(command)
-        except OperationalError, msg:
-            print(f"Command {command}skipped", msg)
+        except:
+            print(f"Command {command} skipped")
 
 
     sfq.close()
