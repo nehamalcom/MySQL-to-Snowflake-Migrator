@@ -119,23 +119,13 @@ def CreateSnowflakeDBandSchema (
     sqConnection.close()
 
 
-#CreateSnowflakeDBandSchema (
-#    sfPswd = '',
-#    sqPswd = '',
-#    sfAccount = 'bqa34388',
-#    sfUser = 'USER_1',
-#    sfDatabase = 'DEMO_DB',
-#    sfSchema = 'TESTANALYTICS',
-#    sqUser = 'root',
-#    sqHost = 'localhost'
-#)
 CreateSnowflakeDBandSchema (
     sfPswd = '',
     sqPswd = '',
-    sfAccount = 'xu42372.ap-south-1.aws',
-    sfUser = 'NEHAMALCOM',
+    sfAccount = 'ACCOUNT',
+    sfUser = 'USERNAME',
     sfDatabase = 'DEMO_DB',
-    sfSchema = 'TESTANALYTICS',
+    sfSchema = 'USERSCHEMA',
     sqUser = 'root',
     sqHost = 'localhost'
 )
