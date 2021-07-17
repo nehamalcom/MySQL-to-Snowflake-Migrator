@@ -174,14 +174,15 @@ def dataLoadFromMySQLtoSnowflake (
 if __name__=="__main__":
      #function to load data from MySQL server to Snowflake
     dataLoadFromMySQLtoSnowflake (
-        sfPswd = 'Dpa@1234',
-        sqPswd = 'qmreadonly2020',
-        sfAccount = 'bqa34388',
-        sfUser = 'USER_1',
-        sfDatabase = 'DEMO_DB',
-        sfSchema = 'TESTANALYTICS',
-        sfwarehouse='COMPUTE_WH',
-        sfrole = 'DEMO_ACCESS',
-        sqUser = 'qm_readonly',
-        sqHost = 'qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com'
+        #enter data here
+        sfPswd = '',
+        sqPswd = '',
+        sfAccount = '',
+        sfUser = '',
+        sfDatabase = '',
+        sfSchema = '',
+        sfwarehouse='',
+        sfrole = '',
+        sqUser = '',
+        sqHost = ''
     )
