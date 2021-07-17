@@ -151,13 +151,14 @@ def dataLoadFromMySQLtoSnowflake (
     sfConnection.close()
 
 dataLoadFromMySQLtoSnowflake (
-    sfPswd = 'Dpa@1234',
-    sqPswd = 'qmreadonly2020',
-    sfAccount = 'bqa34388',
-    sfUser = 'USER_1',
-    sfDatabase = 'DEMO_DB',
-    sfSchema = 'TESTANALYTICS',
-    sqUser = 'qm_readonly',
-    sqHost = 'qmanalyticsdb.cr4wvcewigkc.us-west-2.rds.amazonaws.com'
+    #enter credentials here
+    sfPswd = '',
+    sqPswd = '',
+    sfAccount = '',
+    sfUser = '',
+    sfDatabase = '',
+    sfSchema = '',
+    sqUser = '',
+    sqHost = ''
 )
 
