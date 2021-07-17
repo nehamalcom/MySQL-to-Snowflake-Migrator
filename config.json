@@ -1,0 +1,21 @@
+{
+    "MYSQL": {
+        "USERNAME": "",
+        "PASSWORD": "",
+        "HOST": "",
+        "PORT": "",
+        "DATABASE": ""
+    },
+    "SNOWFLAKE": {
+        "USERNAME": "",
+        "PASSWORD": "",
+        "ACCOUNT": "",
+        "ROLE": "",
+        "DATABASE": "",
+        "SCHEMA": "",
+        "WAREHOUSE": ""
+    },
+    "QUERY": {
+        "SFQUERIES": ""
+    }
+}
